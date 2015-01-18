@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="org.opencv.core.Core"/>
+<fullyQualifiedTypeName name="org.opencv.core.Rect"/>
+<fullyQualifiedTypeName name="org.opencv.core.Point"/>
+<fullyQualifiedTypeName name="org.opencv.core.MatOfRect"/>
+<fullyQualifiedTypeName name="org.opencv.objdetect.CascadeClassifier"/>
+<fullyQualifiedTypeName name="org.opencv.core.Scalar"/>
+<fullyQualifiedTypeName name="org.opencv.contrib.FaceRecognizer"/>
+<fullyQualifiedTypeName name="org.opencv.core.Mat"/>
+<fullyQualifiedTypeName name="org.opencv.highgui.Highgui"/>
+<fullyQualifiedTypeName name="org.opencv.core.CvType"/>
+<fullyQualifiedTypeName name="java.io.File"/>
+<fullyQualifiedTypeName name="java.io.FilenameFilter"/>
+<fullyQualifiedTypeName name="org.bytedeco.javacpp.opencv_core.MatVector"/>
+<fullyQualifiedTypeName name="java.nio.IntBuffer"/>
+<fullyQualifiedTypeName name="org.bytedeco.javacpp.opencv_contrib.FaceRecognizer"/>
+<fullyQualifiedTypeName name="org.bytedeco.javacpp.Loader"/>
+<fullyQualifiedTypeName name="org.bytedeco.javacpp.opencv_objdetect"/>
+<fullyQualifiedTypeName name="org.bytedeco.javacpp.opencv_objdetect.CvHaarClassifierCascade"/>
+<fullyQualifiedTypeName name="org.bytedeco.javacpp.opencv_core.CvRect"/>
+<fullyQualifiedTypeName name="org.bytedeco.javacpp.opencv_core.Mat"/>
+</qualifiedTypeNameHistroy>

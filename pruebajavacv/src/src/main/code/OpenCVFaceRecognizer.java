@@ -13,6 +13,7 @@ import org.bytedeco.javacpp.opencv_objdetect.CvHaarClassifierCascade;
 import org.bytedeco.javacpp.opencv_core.CvRect;
 
 
+
 import static org.bytedeco.javacpp.opencv_contrib.*;
 import static org.bytedeco.javacpp.opencv_core.*;
 import static org.bytedeco.javacpp.opencv_highgui.*;
@@ -21,6 +22,7 @@ import static org.bytedeco.javacpp.opencv_imgproc.CV_BGR2GRAY;
 import static org.bytedeco.javacpp.opencv_imgproc.cvCvtColor;
 import static org.bytedeco.javacpp.opencv_imgproc.cvEqualizeHist;
 import static org.bytedeco.javacpp.opencv_imgproc.CV_INTER_LINEAR;
+import static org.bytedeco.javacpp.opencv_imgproc.INTER_NEAREST;
 import static org.bytedeco.javacpp.opencv_imgproc.cvResize;
 
 
@@ -28,23 +30,36 @@ import static org.bytedeco.javacpp.opencv_imgproc.cvResize;
 
 public class OpenCVFaceRecognizer {
 	
-	private static final String CASCADE_FILE = "C:/Users/gonzalo1/javaworkspace/pruebajavacv/src/src/main/resources/haarcascade_frontalface_alt.xml";
+	private static final String CASCADE_FILE = "resources/haarcascade_frontalface_alt.xml";
 	final static CvHaarClassifierCascade cascade = new CvHaarClassifierCascade(cvLoad(CASCADE_FILE));
+	private static int TRAIN_IMG_NUMBER = 10;
+	private static MatVector vec = new MatVector(2*TRAIN_IMG_NUMBER);
 	
 	 public static void main(String[] args) {
 		 
-		 	//String path = "../resources";
-		 	String path = "C:/Users/gonzalo1/javaworkspace/pruebajavacv/src/src/main/resources";
-		 	String pathImg = "../resources2";
-		 	String pathImg2 = "C:/Users/gonzalo1/javaworkspace/pruebajavacv/src/src/main/resources2";
+		 	String terry = "terry_target.jpg";
+		 	String aniston = "aniston.png";
+		 	String lawrence = "lawrence.png";
+		 	String terry2 = "terry2.jpg";
+		 	String terry3 = "otraterry.jpg";
+		 	String ronaldo = "cr7_target.jpg";
+		 	String ronaldo2 = "cr74.jpg";
+		 
+
+		 	String path = "resources";
+		 	String pathImg2 = "resources/targetimg/";
+		 	String resultPath = path + "/output/";
 	        String trainingDir = path;
-	        Mat testImage = imread(pathImg2, CV_LOAD_IMAGE_GRAYSCALE);
+
 	        
-	        IplImage target = new IplImage();
-            target = cvLoadImage("C:/Users/gonzalo1/javaworkspace/pruebajavacv/src/src/main/resources2/cr7_target.jpg");
-            CvSeq faces2 = detectFace(target);
+	        IplImage target2 = new IplImage();
+            target2 = cvLoadImage(pathImg2 + terry3);
+            CvSeq faces2 = detectFace(target2);
             CvRect r2 = new CvRect(cvGetSeqElem(faces2,0));
-            target=preprocessImage(target, r2);
+            target2=preprocessImage(target2, r2);
+            IplImage target = IplImage.create(92,112, IPL_DEPTH_8U, 1);
+            cvResize(target2 , target);
+            cvSaveImage(resultPath+"foto.jpg", target);
             Mat targetImage = new Mat(target);
 
 	        File root = new File(trainingDir);
@@ -65,44 +80,65 @@ public class OpenCVFaceRecognizer {
 
 	        int counter = 0;
 
-	        IplImage[] trainImages = new IplImage[5];
+	        IplImage[] trainImages = new IplImage[TRAIN_IMG_NUMBER];
 	        
-	        MatVector vec = new MatVector();
-	        
-	        for(int i=1; i <= 5; i++){
-                trainImages[i-1]=cvLoadImage("C:/Users/gonzalo1/javaworkspace/pruebajavacv/src/src/main/resources/terry"+i+".jpg");
+	        //MatVector vec = new MatVector();
+	        IplImage imgs, destination;
+	        Mat mt;
+	        for(int i=1; i <= TRAIN_IMG_NUMBER; i++){
+                trainImages[i-1]=cvLoadImage("resources/terry"+i+".jpg");
                 CvSeq faces = detectFace(trainImages[i-1]);
                 CvRect r = new CvRect(cvGetSeqElem(faces,0));
                 //trainImages[i-1]=preprocessImage(trainImages[i-1], r);
-                vec.put(i-1, new Mat(preprocessImage(trainImages[i-1], r)));
+                trainImages[i-1] = preprocessImage(trainImages[i-1], r);
+               
+                labelsBuf.put(i-1, 1);
+                	destination = IplImage.create(target.width(),target.height(), IPL_DEPTH_8U, 1);
+                	cvResize(trainImages[i-1] , destination);
+
+                
+                	cvSaveImage(resultPath+i+".jpg", destination);
+                mt = new Mat(destination);
+                vec.put(i-1, mt);
+            }
+	        
+	        trainImages = new IplImage[TRAIN_IMG_NUMBER];
+	        int val = 10;
+	        for(int i=1; i <= TRAIN_IMG_NUMBER; i++){
+                trainImages[i-1]=cvLoadImage("resources/cr7"+i+".jpg");
+                CvSeq faces = detectFace(trainImages[i-1]);
+                CvRect r = new CvRect(cvGetSeqElem(faces,0));
+                //trainImages[i-1]=preprocessImage(trainImages[i-1], r);
+                trainImages[i-1] = preprocessImage(trainImages[i-1], r);
+                labelsBuf.put(i-1+TRAIN_IMG_NUMBER, 2);
+                	destination = IplImage.create(target.width(),target.height(), IPL_DEPTH_8U, 1);
+                	cvResize(trainImages[i-1] , destination);
+                	val = 10 +i;
+                	cvSaveImage(resultPath+val+".jpg", destination);
+                
+                mt = new Mat(destination);
+                vec.put(i-1 +TRAIN_IMG_NUMBER, mt);
             }
 	        
 	       
 	        
-	        for (File image : imageFiles) {
-//	            Mat img = imread(image.getAbsolutePath(), CV_LOAD_IMAGE_GRAYSCALE);
-//
-//	            int label = Integer.parseInt(image.getName().split("\\-")[0]);
-//
-//	          
-//              
-//	            
-//	            images.put(counter, img);
-//
-//	            labelsBuf.put(counter, label);
-//
-//	            counter++;
-	        }
 
-	        FaceRecognizer faceRecognizer = createFisherFaceRecognizer();
+
+	        //FaceRecognizer faceRecognizer = createFisherFaceRecognizer();
 	         //FaceRecognizer faceRecognizer = createEigenFaceRecognizer();
-	         //FaceRecognizer faceRecognizer = createLBPHFaceRecognizer();
+	         FaceRecognizer faceRecognizer = createLBPHFaceRecognizer(2,16,16,16,500.0);
+
+	        
 
 	        faceRecognizer.train(vec, labels);
 
-	        int predictedLabel = faceRecognizer.predict(targetImage);
+	        int[] plabel = new int[1];
+	        double[] pconfidence = new double[1];
+	        
+	        faceRecognizer.predict(targetImage, plabel, pconfidence);
 
-	        System.out.println("Predicted label: " + predictedLabel);
+	        System.out.println("Predicted label: " + plabel[0]);
+	        System.out.println("Predicted confidence: " + pconfidence[0]);
 	    }
 	 
 	 protected static CvSeq detectFace(IplImage originalImage) {

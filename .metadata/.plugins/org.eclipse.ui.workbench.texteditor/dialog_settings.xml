@@ -13,8 +13,10 @@
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="preprocessImage" key="selection"/>
+		<item value="Images" key="selection"/>
 		<list key="findhistory">
+			<item value="images"/>
+			<item value="200"/>
 			<item value="preprocessImage"/>
 			<item value="cvLoadImage"/>
 			<item value="javacv.cpp"/>

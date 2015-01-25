@@ -20,4 +20,5 @@
 <fullyQualifiedTypeName name="org.bytedeco.javacpp.opencv_objdetect.CvHaarClassifierCascade"/>
 <fullyQualifiedTypeName name="org.bytedeco.javacpp.opencv_core.CvRect"/>
 <fullyQualifiedTypeName name="org.bytedeco.javacpp.opencv_core.Mat"/>
+<fullyQualifiedTypeName name="src.main.code.FaceRecog"/>
 </qualifiedTypeNameHistroy>
